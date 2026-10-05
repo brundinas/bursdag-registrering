@@ -72,7 +72,7 @@ form.addEventListener("submit", async (event) => {
     .map((id) => Number(id));
 
   if (!navn || valgteAktiviteter.length === 0) {
-    statusEl.textContent = "Fyll inn navn og velg minst én aktivitet.";
+    statusEl.textContent = "Fyll inn navn og velg minst én dato.";
     return;
   }
 
@@ -190,7 +190,7 @@ async function init() {
 
 function showWelcome(navn) {
   document.getElementById("welcome-text").textContent =
-    `Velkommen ${navn}! Gleder meg til å se deg.`;
+    `Gleder meg til å se deg, ${navn}!`;
 
   document.getElementById("welcome-modal").classList.remove("hidden");
 }
