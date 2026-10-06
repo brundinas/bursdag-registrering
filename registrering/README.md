@@ -1,57 +1,30 @@
 # Bursdag – registreringsskjema
 
-Et enkelt Doodle-lignende registreringsskjema uten reklame.
+Et enkelt Doodle-lignende registreringsskjema uten reklame, skrevet i PHP. Svar lagres i en SQLite-fil.
 
-Frontend kan hostes gratis på GitHub Pages. Svar lagres i Supabase.
+## Krav
 
-## 1. Opprett Supabase-prosjekt
+PHP 8.0+ med `pdo_sqlite`.
 
-Lag et nytt prosjekt på Supabase, og kjør SQL-en under i SQL Editor:
+## Kjør lokalt
 
-```sql
-create table public.responses (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  created_at timestamptz not null default now()
-);
-
-alter table public.responses enable row level security;
-
-create policy "Alle kan lese svar"
-on public.responses
-for select
-using (true);
-
-create policy "Alle kan legge inn svar"
-on public.responses
-for insert
-with check (true);
+```
+php -S localhost:8000
 ```
 
-## 2. Sett inn Supabase-nøkler
+Åpne `http://localhost:8000`. Databasen opprettes automatisk i `data/registrering.sqlite`.
 
-Åpne `app.js` og erstatt:
+## Legg inn datoer
 
-```js
-const SUPABASE_URL = "DIN_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "DIN_SUPABASE_ANON_KEY";
+```
+php seed.php "Lørdag 11. oktober" "Lørdag 18. oktober" "Lørdag 25. oktober"
 ```
 
-med verdiene fra Supabase:
-Project Settings → API → Project URL og anon public key.
+Hver parameter blir en rad i `aktiviteter`. Avkrysningsboksen for aktivitet med id 3 er deaktivert.
 
-## 3. Test lokalt
+## Publisering
 
-Åpne `index.html` i nettleseren.
-
-## 4. Publiser på GitHub Pages
-
-1. Lag et nytt GitHub-repo
-2. Last opp filene
-3. Gå til Settings → Pages
-4. Velg Deploy from branch
-5. Velg `main` og `/root`
-6. Lagre
+Last opp filene til en vert med PHP og pass på at `data/` er skrivbar for webserveren og ikke tilgjengelig utenfra (`.htaccess` følger med for Apache).
 
 ## Merk om personvern
 
